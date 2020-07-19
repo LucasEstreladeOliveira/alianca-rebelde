@@ -1,7 +1,7 @@
 <template>
   <div :class="$mq">
     <Menu />
-    <Display />
+    <Display :class="`display-${$mq}`" />
   </div>
 </template>
 
@@ -20,9 +20,17 @@ export default {
 </script>
 <style lang="postcss">
 .mobile {
-  display: block;
+  display: grid;
 }
 .desktop {
   display: flex;
+}
+
+.display-mobile {
+  height: 69vh;
+}
+
+.display-desktop {
+  height: 96vh;
 }
 </style>
