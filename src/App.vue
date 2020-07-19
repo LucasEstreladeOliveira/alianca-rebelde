@@ -1,32 +1,46 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
+    <Home v-if="!login" />
+    <router-view v-if="login" />
   </div>
 </template>
+<script>
+import Home from "./views/Home";
 
+export default {
+  components: {
+    Home
+  },
+  data() {
+    return {
+      login: true
+    };
+  },
+  created() {
+    this.verifyRoute(this.$route);
+  },
+  watch: {
+    $route(newRoute) {
+      console.log(newRoute.name);
+      this.verifyRoute(newRoute);
+    }
+  },
+  methods: {
+    verifyRoute(route) {
+      if (route.name != "Login") {
+        this.login = false;
+        document.body.style.backgroundImage = `url("https://starwarsblog.starwars.com/wp-content/uploads/2020/04/star-wars-backgrounds-25.jpg")`;
+      } else {
+        this.login = true;
+        document.body.style.backgroundImage = `url("https://i.giphy.com/media/l0MYJAzu5RTVSGeiY/giphy.webp")`;
+        document.body.style.backgroundSize = "100% 100%";
+      }
+    }
+  }
+};
+</script>
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
 }
 </style>
