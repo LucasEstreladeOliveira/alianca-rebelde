@@ -1,24 +1,11 @@
 <template>
-  <div class="gif-display" :class="$mq">
-    <div
-      class="ui raised very padded text container segment"
-      style="max-width:1100px !important;"
-    >
-      <router-view />
-    </div>
-  </div>
+  <sui-card>
+    <router-view style="padding:15px" />
+  </sui-card>
 </template>
 
 <script>
 export default {};
 </script>
 
-<style lang="css" scoped>
-.gif-display {
-  margin: 14px !important;
-}
-
-.desktop {
-  margin-right: 28px !important;
-}
-</style>
+<style lang="css" scoped></style>

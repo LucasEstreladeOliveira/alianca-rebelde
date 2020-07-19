@@ -1,8 +1,8 @@
 <template>
-  <div :class="$mq">
-    <Menu />
+  <sui-card-group :items-per-row="1" class="group">
+    <Menu :class="`menu-${$mq}`" />
     <Display :class="`display-${$mq}`" />
-  </div>
+  </sui-card-group>
 </template>
 
 <script>
@@ -19,18 +19,25 @@ export default {
 };
 </script>
 <style lang="postcss">
-.mobile {
-  display: grid;
-}
-.desktop {
-  display: flex;
+.group {
+  position: relative;
+  top: 7px;
 }
 
-.display-mobile {
-  height: 69vh;
+.menu-mobile .menu-laptop {
+  width: 100vw;
+}
+
+.menu-desktop {
+  width: 20vw !important;
+}
+
+.display-mobile .display-laptop {
+  width: 100vw !important;
 }
 
 .display-desktop {
-  height: 96vh;
+  width: 77vw !important;
+  max-width: 77vw !important;
 }
 </style>

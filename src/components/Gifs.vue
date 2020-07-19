@@ -1,22 +1,16 @@
 <template>
-  <div>
-    <Search @search="loadGifs($event)" />
-    <container class="ui container">
-      <sui-card-group :items-per-row="5">
+  <container>
+    <sui-card class="ui fluid">
+      <Search @search="loadGifs($event)" />
+    </sui-card>
+    <sui-card class="ui fluid" :class="`card-overflow-${$mq}`">
+      <sui-card-group :items-per-row="imgPerRow" :class="`card-group-${$mq}`">
         <sui-card v-for="gif in gifs" :key="gif.id">
-          <sui-reveal animated="move">
-            <sui-reveal-content visible>
-              <sui-image
-                :src="gif.images.fixed_height.url"
-                style=" height:150px !important; width: 100% !important"
-              />
-            </sui-reveal-content>
-            <sui-reveal-content hidden> </sui-reveal-content>
-          </sui-reveal>
+          <img :src="gif.images.fixed_height.url" style="object-fit: cover;" />
         </sui-card>
       </sui-card-group>
-    </container>
-  </div>
+    </sui-card>
+  </container>
 </template>
 
 <script>
@@ -29,15 +23,40 @@ export default {
   },
   data() {
     return {
-      gifs: []
+      gifs: [],
+      imgPerRow: 1
     };
+  },
+  created() {
+    window.addEventListener("resize", () => {
+      this.handleResize();
+    });
+  },
+  mounted() {
+    this.handleResize();
   },
   methods: {
     loadGifs(payload) {
       this.gifs = payload;
+    },
+    handleResize() {
+      console.log(this.$mq);
+      if (this.$mq == "desktop") {
+        this.imgPerRow = 5;
+      } else {
+        this.imgPerRow = 1;
+      }
     }
   }
 };
 </script>
+<style scoped lang="postcss">
+.card-overflow-desktop {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
 
-<style lang="scss" scoped></style>
+.card-group-desktop {
+  height: calc(96vh - 60px);
+}
+</style>
