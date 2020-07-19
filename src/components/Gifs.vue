@@ -1,9 +1,16 @@
 <template>
   <container>
     <sui-card class="ui fluid">
-      <Search @search="loadGifs($event)" />
+      <Search />
     </sui-card>
-    <sui-card class="ui fluid" :class="`card-overflow-${$mq}`">
+    <sui-card
+      v-if="gifs.length > 1"
+      class="ui fluid"
+      :class="`card-overflow-${$mq}`"
+      v-infinite-scroll="handleLoad()"
+      :infinite-scroll-disabled="busy"
+      infinite-scroll-distance="10"
+    >
       <sui-card-group :items-per-row="imgPerRow" :class="`card-group-${$mq}`">
         <sui-card v-for="gif in gifs" :key="gif.id">
           <img :src="gif.images.fixed_height.url" style="object-fit: cover;" />
@@ -15,6 +22,7 @@
 
 <script>
 import Search from "./Search";
+import { mapState } from "vuex";
 
 export default {
   name: "Gifs",
@@ -23,9 +31,14 @@ export default {
   },
   data() {
     return {
-      gifs: [],
       imgPerRow: 1
     };
+  },
+  computed: {
+    ...mapState({
+      gifs: state => state.gifs,
+      busy: state => state.busy
+    })
   },
   created() {
     window.addEventListener("resize", () => {
@@ -36,9 +49,6 @@ export default {
     this.handleResize();
   },
   methods: {
-    loadGifs(payload) {
-      this.gifs = payload;
-    },
     handleResize() {
       console.log(this.$mq);
       if (this.$mq == "desktop") {
@@ -46,6 +56,9 @@ export default {
       } else {
         this.imgPerRow = 1;
       }
+    },
+    handleLoad() {
+      this.$store.commit("enter", "cat");
     }
   }
 };

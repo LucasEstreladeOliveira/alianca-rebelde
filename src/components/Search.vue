@@ -22,18 +22,7 @@ export default {
   },
   methods: {
     enter(search) {
-      console.log("deu enter!");
-      const apiKey = "U1kXvwFPKHwhxpdFPIppkTAzvnOJoUZE";
-      const giphyApiUrl = `https://api.giphy.com/v1/gifs/search?q=${search}&rating=g&api_key=${apiKey}`;
-
-      fetch(giphyApiUrl)
-        .then(data => {
-          return data.json();
-        })
-        .then(json => {
-          console.log(json.data);
-          this.$emit("search", json.data);
-        });
+      this.$store.commit("enter", search);
     }
   }
 };
