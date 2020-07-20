@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Gifs from "../components/Gifs.vue";
+import Dashboard from "../components/Dashboard.vue";
 import Login from "../views/Login.vue";
 
 Vue.use(VueRouter);
@@ -8,8 +8,8 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    name: "Gifs",
-    component: Gifs
+    name: "Dashboard",
+    component: Dashboard
   },
   {
     path: "/login",

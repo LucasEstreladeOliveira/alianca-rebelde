@@ -1,34 +1,17 @@
 <template>
-  <container>
-    <sui-card class="ui fluid">
-      <Search />
+  <sui-card-group :items-per-row="imgPerRow" :class="`card-group-${$mq}`">
+    <sui-card v-for="gif in gifs" :key="gif.id">
+      <img :src="gif.images.fixed_height.url" style="object-fit: cover;" />
     </sui-card>
-    <sui-card
-      v-if="gifs.length > 1"
-      class="ui fluid"
-      :class="`card-overflow-${$mq}`"
-      v-infinite-scroll="handleLoad()"
-      :infinite-scroll-disabled="busy"
-      infinite-scroll-distance="10"
-    >
-      <sui-card-group :items-per-row="imgPerRow" :class="`card-group-${$mq}`">
-        <sui-card v-for="gif in gifs" :key="gif.id">
-          <img :src="gif.images.fixed_height.url" style="object-fit: cover;" />
-        </sui-card>
-      </sui-card-group>
-    </sui-card>
-  </container>
+    <div ref="observer" class="ui container" style="height:1px"></div>
+  </sui-card-group>
 </template>
 
 <script>
-import Search from "./Search";
 import { mapState } from "vuex";
 
 export default {
   name: "Gifs",
-  components: {
-    Search
-  },
   data() {
     return {
       imgPerRow: 1
@@ -36,8 +19,7 @@ export default {
   },
   computed: {
     ...mapState({
-      gifs: state => state.gifs,
-      busy: state => state.busy
+      gifs: state => state.gifs
     })
   },
   created() {
@@ -47,6 +29,15 @@ export default {
   },
   mounted() {
     this.handleResize();
+    this.observer = new IntersectionObserver(([entry]) => {
+      if (entry && entry.isIntersecting) {
+        this.$store.commit("enter", "cat");
+        console.log("oberserver", this.$refs.observer);
+      }
+    });
+
+    this.observer.observe(this.$refs.observer);
+    console.log(this.$refs.observer);
   },
   methods: {
     handleResize() {
@@ -64,11 +55,6 @@ export default {
 };
 </script>
 <style scoped lang="postcss">
-.card-overflow-desktop {
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
-}
-
 .card-group-desktop {
   height: calc(96vh - 60px);
 }

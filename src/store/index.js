@@ -6,13 +6,11 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     gifs: [],
-    loadCounter: 0,
-    busy: false
+    loadCounter: 0
   },
   mutations: {
     enter(state, search) {
       console.log("deu enter!");
-      state.busy = true;
       const apiKey = "U1kXvwFPKHwhxpdFPIppkTAzvnOJoUZE";
       const giphyApiUrl = `https://api.giphy.com/v1/gifs/search?q=${search}&rating=g&api_key=${apiKey}&offset=${state.loadCounter *
         20}&limit=20`;
@@ -23,10 +21,9 @@ export default new Vuex.Store({
         })
         .then(json => {
           console.log(json.data);
-          state.gifs = json.data;
+          state.gifs = [...state.gifs, ...json.data];
         });
       state.loadCounter++;
-      state.busy = false;
     }
   },
   actions: {},
