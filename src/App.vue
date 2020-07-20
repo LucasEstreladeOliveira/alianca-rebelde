@@ -6,6 +6,8 @@
 </template>
 <script>
 import Home from "./views/Home";
+import backgroundImage from "./assets/background.jpg";
+import loginBackgroundImage from "./assets/login_background.gif";
 
 export default {
   components: {
@@ -17,11 +19,16 @@ export default {
     };
   },
   created() {
+    window.addEventListener("resize", () => {
+      this.verifyOverflow();
+    });
+  },
+  mounted() {
     this.verifyRoute(this.$route);
+    this.verifyOverflow();
   },
   watch: {
     $route(newRoute) {
-      console.log(newRoute.name);
       this.verifyRoute(newRoute);
     }
   },
@@ -29,11 +36,18 @@ export default {
     verifyRoute(route) {
       if (route.name != "Login") {
         this.login = false;
-        document.body.style.backgroundImage = `url("https://starwarsblog.starwars.com/wp-content/uploads/2020/04/star-wars-backgrounds-25.jpg")`;
+        document.body.style.backgroundImage = `url("${backgroundImage}")`;
       } else {
         this.login = true;
-        document.body.style.backgroundImage = `url("https://i.giphy.com/media/l0MYJAzu5RTVSGeiY/giphy.webp")`;
-        document.body.style.backgroundSize = "100% 100%";
+        document.body.style.backgroundImage = `url("${loginBackgroundImage}")`;
+        document.body.style.backgroundSize = "cover";
+      }
+    },
+    verifyOverflow() {
+      if (this.$mq == "desktop") {
+        document.body.style.overflow = "hidden";
+      } else {
+        document.body.style.overflow = "auto";
       }
     }
   }
