@@ -1,61 +1,90 @@
 <template>
-  <container>
-    <sui-card class="ui fluid">
-      <Search @search="loadGifs($event)" />
-    </sui-card>
-    <sui-card class="ui fluid" :class="`card-overflow-${$mq}`">
-      <sui-card-group :items-per-row="imgPerRow" :class="`card-group-${$mq}`">
-        <sui-card v-for="gif in gifs" :key="gif.id">
-          <img :src="gif.images.fixed_height.url" style="object-fit: cover;" />
-        </sui-card>
-      </sui-card-group>
-    </sui-card>
-  </container>
+  <!-- Grid  -->
+  <sui-grid
+    :columns="imgPerRow"
+    :class="`card-group-${$mq}`"
+    style="padding:10px"
+  >
+    <!-- Iteracao de gifs -->
+    <sui-grid-column v-for="gif in gifs" :key="gif.id" v-on:click="toggle(gif)">
+      <sui-image
+        rounded
+        centered
+        :src="gif.images.fixed_height.url"
+        style="object-fit: cover; height: calc(40vh); width: calc(40vh)"
+      />
+    </sui-grid-column>
+    <!-- Modal com as informacoes do gif clickado -->
+    <Modal v-if="gifs.length !== 0" />
+    <!-- Observer -->
+    <div ref="observer" class="ui container" style="height:1px"></div>
+  </sui-grid>
 </template>
-
 <script>
-import Search from "./Search";
+import { mapState } from "vuex";
+import Modal from "./Modal";
 
 export default {
   name: "Gifs",
   components: {
-    Search
+    Modal
   },
   data() {
     return {
-      gifs: [],
       imgPerRow: 1
     };
   },
+  computed: {
+    ...mapState({
+      gifs: state => state.gifs,
+      currentGif: state => state.currentGif,
+      open: state => state.open,
+      search: state => state.search
+    })
+  },
   created() {
+    // Cria um evento que observa quando e feito o resize da página
     window.addEventListener("resize", () => {
       this.handleResize();
     });
   },
   mounted() {
     this.handleResize();
+    this.handleObserver();
   },
   methods: {
-    loadGifs(payload) {
-      this.gifs = payload;
+    toggle(gif) {
+      // Executa mutation que atribui o gif clickado ao state.currentGif
+      this.$store.commit("setCurrentGif", gif);
+      // Executa mutation que altera o estado do state.open
+      this.$store.commit("setOpen");
     },
     handleResize() {
-      console.log(this.$mq);
+      // Funcao responsavel por decidir quantas imagens aparecem por coluna dependendo do tamanho da tela
       if (this.$mq == "desktop") {
         this.imgPerRow = 5;
       } else {
         this.imgPerRow = 1;
       }
+    },
+    handleLoad(search) {
+      // Executa mutation que realiza a pesquisa na API do Giphy
+      this.$store.commit("enter", search);
+    },
+    handleObserver() {
+      // Adiciona o observer que realiza uma nova pesquisa sempre que o elemento this.$refs.observer aparece na tela
+      this.observer = new IntersectionObserver(([entry]) => {
+        if (entry && entry.isIntersecting) {
+          this.handleLoad(this.search);
+        }
+      });
+
+      this.observer.observe(this.$refs.observer);
     }
   }
 };
 </script>
 <style scoped lang="postcss">
-.card-overflow-desktop {
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
-}
-
 .card-group-desktop {
   height: calc(96vh - 60px);
 }

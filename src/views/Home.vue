@@ -4,9 +4,7 @@
     <Display :class="`display-${$mq}`" />
   </sui-card-group>
 </template>
-
 <script>
-// @ is an alias to /src
 import Menu from "../components/Menu";
 import Display from "../components/Display";
 
