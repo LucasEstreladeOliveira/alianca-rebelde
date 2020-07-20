@@ -6,6 +6,7 @@
 </template>
 <script>
 import Home from "./views/Home";
+import backgroundImage from "./assets/background.jpg";
 
 export default {
   components: {
@@ -27,7 +28,6 @@ export default {
   },
   watch: {
     $route(newRoute) {
-      console.log(newRoute.name);
       this.verifyRoute(newRoute);
     }
   },
@@ -35,7 +35,7 @@ export default {
     verifyRoute(route) {
       if (route.name != "Login") {
         this.login = false;
-        document.body.style.backgroundImage = `url("https://starwarsblog.starwars.com/wp-content/uploads/2020/04/star-wars-backgrounds-25.jpg")`;
+        document.body.style.backgroundImage = `url("${backgroundImage}")`;
       } else {
         this.login = true;
         document.body.style.backgroundImage = `url("https://i.giphy.com/media/l0MYJAzu5RTVSGeiY/giphy.webp")`;
@@ -55,8 +55,5 @@ export default {
 <style>
 #app {
   text-align: center;
-}
-body {
-  overflow: hidden;
 }
 </style>
