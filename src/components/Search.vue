@@ -1,5 +1,5 @@
 <template>
-  <container class="ui transparent fluid input container">
+  <div class="ui transparent fluid input container">
     <input
       type="text"
       placeholder="Search..."
@@ -9,9 +9,8 @@
     <button class="ui basic inverted icon button" @click="enter(search)">
       <i class="search icon black"></i>
     </button>
-  </container>
+  </div>
 </template>
-
 <script>
 export default {
   name: "Search",
@@ -22,7 +21,8 @@ export default {
   },
   methods: {
     enter(search) {
-      this.$store.commit("enter", search);
+      // Executa mutation que atribui a informacao digitada na pesquisa ao state.search
+      this.$store.commit("setSearch", search);
     }
   }
 };

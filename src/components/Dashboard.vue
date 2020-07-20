@@ -1,34 +1,26 @@
 <template>
-  <container>
+  <div>
+    <!-- Card do componente de busca -->
     <sui-card class="ui fluid">
+      <!-- Componente de busca -->
       <Search />
     </sui-card>
+    <!-- Card do componente de exibicao de gifs -->
     <sui-card class="ui fluid" :class="`card-overflow-${$mq}`">
+      <!-- Componente de exibicao de gifs -->
       <Gifs />
     </sui-card>
-  </container>
+  </div>
 </template>
-
 <script>
 import Search from "./Search";
 import Gifs from "./Gifs";
-import { mapState } from "vuex";
 
 export default {
   name: "Dashboard",
   components: {
     Search,
     Gifs
-  },
-  computed: {
-    ...mapState({
-      gifs: state => state.gifs
-    })
-  },
-  data() {
-    return {
-      observer: null
-    };
   }
 };
 </script>
