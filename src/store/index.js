@@ -9,7 +9,9 @@ export default new Vuex.Store({
     loadCounter: 0,
     search: "",
     open: false,
-    currentGif: {}
+    currentGif: {},
+    id: "",
+    password: ""
   },
   mutations: {
     enter(state, search) {
@@ -36,6 +38,16 @@ export default new Vuex.Store({
     },
     setOpen(state) {
       state.open = !state.open;
+    },
+    setLogin(state, login) {
+      this.commit("setID", login.id);
+      this.commit("setPassword", login.password);
+    },
+    setID(state, id) {
+      state.id = id;
+    },
+    setPassword(state, password) {
+      state.password = password;
     },
     setSearch(state, search) {
       if (state.search !== search) {

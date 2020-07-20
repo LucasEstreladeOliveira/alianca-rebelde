@@ -7,6 +7,7 @@
 <script>
 import Home from "./views/Home";
 import backgroundImage from "./assets/background.jpg";
+import loginBackgroundImage from "./assets/login_background.gif";
 
 export default {
   components: {
@@ -38,8 +39,8 @@ export default {
         document.body.style.backgroundImage = `url("${backgroundImage}")`;
       } else {
         this.login = true;
-        document.body.style.backgroundImage = `url("https://i.giphy.com/media/l0MYJAzu5RTVSGeiY/giphy.webp")`;
-        document.body.style.backgroundSize = "100% 100%";
+        document.body.style.backgroundImage = `url("${loginBackgroundImage}")`;
+        document.body.style.backgroundSize = "cover";
       }
     },
     verifyOverflow() {
