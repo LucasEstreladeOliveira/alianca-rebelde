@@ -10,12 +10,12 @@
       <sui-image
         rounded
         centered
-        :src="gif.images.fixed_height.url"
+        :src="gif.url"
         style="object-fit: cover; height: calc(40vh); width: calc(40vh)"
       />
     </sui-grid-column>
     <!-- Modal com as informacoes do gif clickado -->
-    <Modal v-if="gifs.length !== 0" />
+    <Modal v-if="gifs.length !== 0" :config="config" />
     <!-- Observer -->
     <div ref="observer" class="ui container" style="height:1px"></div>
   </sui-grid>
@@ -29,6 +29,16 @@ export default {
   components: {
     Modal
   },
+  props: {
+    gifs: {
+      type: Array,
+      default: () => []
+    },
+    config: {
+      type: Object,
+      default: () => {}
+    }
+  },
   data() {
     return {
       imgPerRow: 1
@@ -36,7 +46,6 @@ export default {
   },
   computed: {
     ...mapState({
-      gifs: state => state.gifs,
       currentGif: state => state.currentGif,
       open: state => state.open,
       search: state => state.search
@@ -69,7 +78,7 @@ export default {
     },
     handleLoad(search) {
       // Executa mutation que realiza a pesquisa na API do Giphy
-      this.$store.commit("enter", search);
+      this.$store.commit("enter", { search: search, route: this.$route });
     },
     handleObserver() {
       // Adiciona o observer que realiza uma nova pesquisa sempre que o elemento this.$refs.observer aparece na tela

@@ -8,6 +8,7 @@
       placeholder="Search..."
       @keyup.enter="enter(search)"
       v-model="search"
+      class="input"
     />
     <button
       class="ui basic inverted icon button"
@@ -29,7 +30,7 @@ export default {
   methods: {
     enter(search) {
       // Executa mutation que atribui a informacao digitada na pesquisa ao state.search
-      this.$store.commit("setSearch", search);
+      this.$store.commit("setSearch", { search: search, route: this.$route });
     }
   }
 };
@@ -39,5 +40,9 @@ export default {
   /* Chrome, Firefox, Opera, Safari 10.1+ */
   color: #132b41 !important;
   font-weight: bold;
+}
+
+.input {
+  margin: 5px !important;
 }
 </style>
