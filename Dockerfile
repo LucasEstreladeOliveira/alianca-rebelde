@@ -1,5 +1,6 @@
 FROM node:lts-alpine
 
+RUN yarn globall add @vue/cli
 # faz da pasta 'app' o diretório atual de trabalho
 WORKDIR /app
 
