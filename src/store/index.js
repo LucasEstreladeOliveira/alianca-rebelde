@@ -16,7 +16,8 @@ export default new Vuex.Store({
     password: ""
   },
   mutations: {
-    enter(params) {
+    enter(state, params) {
+      console.log(state.params);
       if (params.route.name !== "Favoritos") {
         this.commit("getGifs", params.search);
       }
@@ -32,9 +33,14 @@ export default new Vuex.Store({
         })
         .then(json => {
           console.log(json.data);
-          let gifs = [...state.gifs, ...json.data];
+          let mappedData = json.data.map(gif => {
+            return {
+              url: gif.images.fixed_height.url,
+              title: gif.title
+            };
+          });
+          let gifs = [...state.gifs, ...mappedData];
           this.commit("setGifs", gifs);
-          this.commit("setFavoritos", gifs);
         });
       state.loadCounter++;
     },
@@ -44,21 +50,49 @@ export default new Vuex.Store({
         favoritos = await PostService.getGifs();
         this.commit("setFavoritos", favoritos);
       } catch (err) {
-        this.error = err.message;
+        console.log(err.message);
       }
     },
     setGifs(state, gifs) {
-      let mappedGifs = gifs.map(gif => {
-        return {
-          url: gif.images.fixed_height.url,
-          title: gif.title
-        };
-      });
-      state.gifs = mappedGifs;
+      state.gifs = gifs;
+    },
+    async postFavorito(state, favorito) {
+      console.log(state);
+      try {
+        await PostService.insertGif(favorito);
+      } catch (err) {
+        console.log(err.message);
+      }
+    },
+    async removeFavorito(state, id) {
+      console.log(state);
+      try {
+        await PostService.deleteGif(id);
+      } catch (err) {
+        console.log(err.message);
+      }
+
+      this.commit("getFavoritos");
+    },
+    async updateFavorito(state, gif) {
+      console.log(state);
+      try {
+        await PostService.updateGif(gif.id, gif);
+      } catch (err) {
+        console.log(err.message);
+      }
+
+      this.commit("getFavoritos");
     },
     setFavoritos(state, favoritos) {
       console.log(favoritos);
-      state.favoritos = favoritos.map(fav => fav.gif);
+      state.favoritos = favoritos.map(fav => {
+        return {
+          url: fav.gif.url,
+          title: fav.gif.title,
+          id: fav._id
+        };
+      });
     },
     setCurrentGif(state, currentGif) {
       state.currentGif = currentGif;
@@ -76,13 +110,14 @@ export default new Vuex.Store({
     setPassword(state, password) {
       state.password = password;
     },
-    setSearch(state, search) {
-      if (state.search !== search) {
+    setSearch(state, params) {
+      if (state.search !== params.search) {
         state.gifs = [];
         state.loadCounter = 0;
       }
-      state.search = search;
-      this.commit("enter", state.search);
+      state.search = params.search;
+      console.log(state.search);
+      this.commit("enter", { search: params.search, route: params.route });
     }
   },
   actions: {},

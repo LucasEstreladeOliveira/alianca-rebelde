@@ -6,7 +6,7 @@
       <Search />
     </sui-card>
     <!-- Componente de exibicao de gifs -->
-    <GifView v-if="verificaGifLength()" :gifs="gifs" />
+    <GifView v-if="verificaGifLength()" :gifs="gifs" :config="configModal" />
     <!-- Componente de exibicao de gifs -->
     <Busque v-if="!verificaGifLength()" />
   </div>
@@ -26,12 +26,28 @@ export default {
   },
   computed: {
     ...mapState({
-      gifs: state => state.gifs
+      gifs: state => state.gifs,
+      currentGif: state => state.currentGif
     })
+  },
+  data() {
+    return {
+      configModal: {}
+    };
+  },
+  created() {
+    this.configModal = {
+      name: "star outline",
+      color: "yellow",
+      action: this.favorita
+    };
   },
   methods: {
     verificaGifLength() {
       return this.gifs.length !== 0 ? true : false;
+    },
+    favorita() {
+      this.$store.commit("postFavorito", this.currentGif);
     }
   }
 };

@@ -15,7 +15,7 @@
       />
     </sui-grid-column>
     <!-- Modal com as informacoes do gif clickado -->
-    <Modal v-if="gifs.length !== 0" />
+    <Modal v-if="gifs.length !== 0" :config="config" />
     <!-- Observer -->
     <div ref="observer" class="ui container" style="height:1px"></div>
   </sui-grid>
@@ -33,6 +33,10 @@ export default {
     gifs: {
       type: Array,
       default: () => []
+    },
+    config: {
+      type: Object,
+      default: () => {}
     }
   },
   data() {

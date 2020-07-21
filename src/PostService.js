@@ -16,7 +16,6 @@ class PostService {
             createdAt: new Date(gif.createdAt)
           }))
         );
-        console.log(data);
       } catch (err) {
         reject(err);
       }
@@ -31,6 +30,12 @@ class PostService {
   //Delete Usuários
   static deleteGif(id) {
     return axios.delete(`${url}${id}`);
+  }
+  //Update Usuários
+  static updateGif(id, gif) {
+    return axios.post(`${url}${id}`, {
+      gif
+    });
   }
 }
 

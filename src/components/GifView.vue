@@ -1,6 +1,6 @@
 <template>
   <sui-card class="ui fluid display-card" :class="`card-overflow-${$mq}`">
-    <Gifs :gifs="gifs" />
+    <Gifs :gifs="gifs" :config="config" />
   </sui-card>
 </template>
 
@@ -15,6 +15,10 @@ export default {
     gifs: {
       type: Array,
       default: () => []
+    },
+    config: {
+      type: Object,
+      default: () => {}
     }
   }
 };

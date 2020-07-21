@@ -30,7 +30,7 @@ export default {
   methods: {
     enter(search) {
       // Executa mutation que atribui a informacao digitada na pesquisa ao state.search
-      this.$store.commit("setSearch", search);
+      this.$store.commit("setSearch", { search: search, route: this.$route });
     }
   }
 };

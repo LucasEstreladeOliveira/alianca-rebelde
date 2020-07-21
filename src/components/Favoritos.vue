@@ -7,7 +7,7 @@
       v-if="verificaGifLength()"
     >
       <!-- Componente de exibicao de gifs -->
-      <GifView :gifs="favoritos" />
+      <GifView :gifs="favoritos" :config="configModal" />
     </sui-card>
     <sui-card
       class="ui fluid display-card"
@@ -32,15 +32,31 @@ export default {
   },
   computed: {
     ...mapState({
-      favoritos: state => state.favoritos
+      favoritos: state => state.favoritos,
+      currentGif: state => state.currentGif
     })
   },
+  data() {
+    return {
+      configModal: {}
+    };
+  },
   created() {
+    this.configModal = {
+      name: "close icon",
+      color: "red",
+      action: this.removeFavorito
+    };
+  },
+  mounted() {
     this.$store.commit("getFavoritos");
   },
   methods: {
     verificaGifLength() {
       return this.favoritos.length !== 0 ? true : false;
+    },
+    removeFavorito() {
+      this.$store.commit("removeFavorito", this.currentGif.id);
     }
   }
 };
