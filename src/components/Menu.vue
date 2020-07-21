@@ -11,13 +11,12 @@
     <h3 class="id">
       {{ id }}
     </h3>
-    <div :class="`menu-buttom-group-${$mq}`">
-      <router-link
-        :to="route.path"
-        :class="`menu-buttom-${$mq} `"
-        v-for="route in routes"
-        :key="route.name"
-      >
+    <div
+      :class="`menu-buttom-group-${$mq}`"
+      v-for="route in routes"
+      :key="route.name"
+    >
+      <router-link :to="route.path" :class="`menu-buttom-${$mq} `">
         <sui-icon
           :name="route.icon"
           class="ui large"
@@ -64,22 +63,25 @@ export default {
     }
   },
   mounted() {
-    this.routes = this.$router.options.routes.map(route => {
-      return route.name !== "Login" ? route : {};
-    });
+    this.routes = this.verifyIfLogin();
   },
   methods: {
     activeColor(route) {
       let color = "";
       if (this.$route.name === route.name) {
-        console.log(this.$route.name);
-        console.log(route.name);
         color = "white !important";
       } else {
         color = "";
       }
 
       return color;
+    },
+    verifyIfLogin() {
+      let routes = this.$router.options.routes.map(route => {
+        return route.name !== "Login" ? route : {};
+      });
+
+      return routes;
     }
   }
 };

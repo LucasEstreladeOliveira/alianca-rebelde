@@ -17,7 +17,6 @@ export default new Vuex.Store({
   },
   mutations: {
     enter(state, params) {
-      console.log(state.params);
       if (params.route.name !== "Favoritos") {
         this.commit("getGifs", params.search);
       }
@@ -32,7 +31,6 @@ export default new Vuex.Store({
           return data.json();
         })
         .then(json => {
-          console.log(json.data);
           let mappedData = json.data.map(gif => {
             return {
               url: gif.images.fixed_height.url,
@@ -57,7 +55,6 @@ export default new Vuex.Store({
       state.gifs = gifs;
     },
     async postFavorito(state, favorito) {
-      console.log(state);
       try {
         await PostService.insertGif(favorito);
       } catch (err) {
@@ -65,7 +62,6 @@ export default new Vuex.Store({
       }
     },
     async removeFavorito(state, id) {
-      console.log(state);
       try {
         await PostService.deleteGif(id);
       } catch (err) {
@@ -75,7 +71,6 @@ export default new Vuex.Store({
       this.commit("getFavoritos");
     },
     async updateFavorito(state, gif) {
-      console.log(state);
       try {
         await PostService.updateGif(gif.id, gif);
       } catch (err) {
@@ -85,7 +80,6 @@ export default new Vuex.Store({
       this.commit("getFavoritos");
     },
     setFavoritos(state, favoritos) {
-      console.log(favoritos);
       state.favoritos = favoritos.map(fav => {
         return {
           url: fav.gif.url,
@@ -116,7 +110,6 @@ export default new Vuex.Store({
         state.loadCounter = 0;
       }
       state.search = params.search;
-      console.log(state.search);
       this.commit("enter", { search: params.search, route: params.route });
     }
   },

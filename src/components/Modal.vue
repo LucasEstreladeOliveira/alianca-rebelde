@@ -1,43 +1,50 @@
 <template>
   <sui-modal v-model="open" size="mini">
-    <!-- Titulo do Gif selecionado -->
-    <sui-modal-header>
-      <a
-        :class="`ui right corner label ${config.color}`"
-        @click="config.action()"
+    <sui-dimmer :active="active">
+      <sui-loader />
+    </sui-dimmer>
+    <div class="modal">
+      <!-- Header do Modal -->
+      <sui-modal-header class="modal-header">
+        <!-- Tag para favoritar ou excluir o gif -->
+        <a
+          :class="`ui right corner label ${config.color}`"
+          @click="toggleAction()"
+        >
+          <sui-icon :name="config.name" />
+        </a>
+        <div class="ui input fluid" v-if="edit">
+          <input
+            type="text"
+            :placeholder="`${currentGif.title}`"
+            v-model="currentGif.title"
+            @blur="
+              edit = false;
+              updateFavorito(currentGif);
+            "
+            @keyup.enter="
+              edit = false;
+              updateFavorito(currentGif);
+            "
+          />
+        </div>
+        <h2 v-else @click="edit = true" class="title">
+          {{ currentGif.title }}
+        </h2>
+      </sui-modal-header>
+      <!-- Gif selecionado -->
+      <sui-image rounded centered :src="currentGif.url" class="image_modal" />
+      <!-- Botao que fecha o modal -->
+      <sui-button
+        attached="bottom"
+        fluid
+        positive
+        @click="toggle"
+        class="buttom-modal"
       >
-        <sui-icon :name="config.name" />
-      </a>
-      <div class="ui input fluid" v-if="edit">
-        <input
-          type="text"
-          :placeholder="`${currentGif.title}`"
-          v-model="currentGif.title"
-          @blur="
-            edit = false;
-            updateFavorito(currentGif);
-          "
-          @keyup.enter="
-            edit = false;
-            updateFavorito(currentGif);
-          "
-        />
-      </div>
-      <p v-else @click="edit = true" style="text-align:center">
-        {{ currentGif.title }}
-      </p>
-    </sui-modal-header>
-    <!-- Gif selecionado -->
-    <sui-image
-      rounded
-      centered
-      :src="currentGif.url"
-      style="object-fit: cover; height: calc(40vh); width: calc(40vh); margin-top: 10px; margin-bottom: 10px"
-    />
-    <!-- Botao que fecha o modal -->
-    <sui-button attached="bottom" fluid positive @click="toggle">
-      <sui-icon name="check" /> OK
-    </sui-button>
+        <sui-icon name="check" /> OK
+      </sui-button>
+    </div>
   </sui-modal>
 </template>
 
@@ -48,7 +55,8 @@ export default {
   name: "Modal",
   data() {
     return {
-      edit: false
+      edit: false,
+      active: false
     };
   },
   computed: {
@@ -68,6 +76,14 @@ export default {
       // Executa a mutation que muda o estado do state.open
       this.$store.commit("setOpen");
     },
+    toggleAction() {
+      this.active = true;
+      this.config.action();
+      setTimeout(() => {
+        this.active = false;
+        this.$store.commit("setOpen");
+      }, 1000);
+    },
     updateFavorito(gif) {
       this.$store.commit("updateFavorito", gif);
     }
@@ -75,4 +91,33 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.modal {
+  background: #132b41 !important;
+}
+
+.modal-header {
+  background-color: #132b41 !important;
+  color: white !important;
+  padding-top: 20px;
+}
+
+.title {
+  text-align: center !important;
+  color: white !important;
+  margin-top: 0px !important;
+}
+
+.buttom-modal {
+  background-color: #fbbd06 !important;
+  color: #132b41 !important;
+}
+
+.image_modal {
+  object-fit: cover !important;
+  height: calc(40vh) !important;
+  width: calc(40vh) !important;
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+}
+</style>
