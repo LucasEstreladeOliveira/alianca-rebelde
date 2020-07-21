@@ -5,36 +5,23 @@
       <!-- Componente de busca -->
       <Search />
     </sui-card>
-    <!-- Card do componente de exibicao de gifs -->
-    <sui-card
-      class="ui fluid display-card"
-      :class="`card-overflow-${$mq}`"
-      v-if="verificaGifLength()"
-    >
-      <!-- Componente de exibicao de gifs -->
-      <Gifs />
-    </sui-card>
-    <sui-card
-      class="ui fluid display-card"
-      :class="`card-overflow-${$mq}`"
-      v-if="!verificaGifLength()"
-    >
-      <!-- Componente de exibicao de gifs -->
-      <Busque />
-    </sui-card>
+    <!-- Componente de exibicao de gifs -->
+    <GifView v-if="verificaGifLength()" :gifs="gifs" />
+    <!-- Componente de exibicao de gifs -->
+    <Busque v-if="!verificaGifLength()" />
   </div>
 </template>
 <script>
 import Search from "./Search";
-import Gifs from "./Gifs";
 import Busque from "./Busque";
+import GifView from "./GifView";
 import { mapState } from "vuex";
 
 export default {
   name: "Dashboard",
   components: {
     Search,
-    Gifs,
+    GifView,
     Busque
   },
   computed: {

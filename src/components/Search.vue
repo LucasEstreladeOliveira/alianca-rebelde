@@ -8,6 +8,7 @@
       placeholder="Search..."
       @keyup.enter="enter(search)"
       v-model="search"
+      class="input"
     />
     <button
       class="ui basic inverted icon button"
@@ -39,5 +40,9 @@ export default {
   /* Chrome, Firefox, Opera, Safari 10.1+ */
   color: #132b41 !important;
   font-weight: bold;
+}
+
+.input {
+  margin: 5px !important;
 }
 </style>
