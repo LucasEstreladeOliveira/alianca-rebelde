@@ -12,16 +12,54 @@ export default new Vuex.Store({
     search: "",
     open: false,
     currentGif: {},
-    id: "",
-    password: ""
+    login: {}
   },
   mutations: {
-    enter(state, params) {
-      if (params.route.name !== "Favoritos") {
-        this.commit("getGifs", params.search);
+    setGifs(state, gifs) {
+      state.gifs = gifs;
+    },
+    SET_GIFS(state, gifs) {
+      state.gifs = gifs;
+    },
+    async postFavorito(state, favorito) {
+      try {
+        await PostService.insertGif(favorito);
+      } catch (err) {
+        console.log(err.message);
       }
     },
-    getGifs(state, search) {
+    SET_FAVORITOS(state, favoritos) {
+      state.favoritos = favoritos.map(fav => {
+        return {
+          url: fav.gif.url,
+          title: fav.gif.title,
+          id: fav._id
+        };
+      });
+    },
+    SET_CURRENT_GIF(state, currentGif) {
+      state.currentGif = currentGif;
+    },
+    SET_OPEN(state) {
+      state.open = !state.open;
+    },
+    SET_LOADCOUNTER(state, loadCounter) {
+      state.loadCounter = loadCounter;
+    },
+    SET_LOGIN(state, login) {
+      state.login = login;
+    },
+    SET_SEARCH(state, search) {
+      state.search = search;
+    }
+  },
+  actions: {
+    enter({ dispatch }, params) {
+      if (params.route.name !== "Favoritos") {
+        dispatch("getGifs", params.search);
+      }
+    },
+    getGifs({ commit, state }, search) {
       const apiKey = "U1kXvwFPKHwhxpdFPIppkTAzvnOJoUZE";
       const giphyApiUrl = `https://api.giphy.com/v1/gifs/search?q=${search}&rating=g&api_key=${apiKey}&offset=${state.loadCounter *
         20}&limit=20`;
@@ -38,81 +76,52 @@ export default new Vuex.Store({
             };
           });
           let gifs = [...state.gifs, ...mappedData];
-          this.commit("setGifs", gifs);
+          commit("SET_GIFS", gifs);
         });
       state.loadCounter++;
     },
-    async getFavoritos() {
+    async getFavoritos({ commit }) {
       let favoritos;
       try {
         favoritos = await PostService.getGifs();
-        this.commit("setFavoritos", favoritos);
+        commit("SET_FAVORITOS", favoritos);
       } catch (err) {
         console.log(err.message);
       }
     },
-    setGifs(state, gifs) {
-      state.gifs = gifs;
-    },
-    async postFavorito(state, favorito) {
+    async postFavorito(favorito) {
       try {
         await PostService.insertGif(favorito);
       } catch (err) {
         console.log(err.message);
       }
     },
-    async removeFavorito(state, id) {
+    async removeFavorito({ dispatch }, id) {
       try {
         await PostService.deleteGif(id);
       } catch (err) {
         console.log(err.message);
       }
 
-      this.commit("getFavoritos");
+      dispatch("getFavoritos");
     },
-    async updateFavorito(state, gif) {
+    async updateFavorito({ dispatch }, gif) {
       try {
         await PostService.updateGif(gif.id, gif);
       } catch (err) {
         console.log(err.message);
       }
 
-      this.commit("getFavoritos");
+      dispatch("getFavoritos");
     },
-    setFavoritos(state, favoritos) {
-      state.favoritos = favoritos.map(fav => {
-        return {
-          url: fav.gif.url,
-          title: fav.gif.title,
-          id: fav._id
-        };
-      });
-    },
-    setCurrentGif(state, currentGif) {
-      state.currentGif = currentGif;
-    },
-    setOpen(state) {
-      state.open = !state.open;
-    },
-    setLogin(state, login) {
-      this.commit("setID", login.id);
-      this.commit("setPassword", login.password);
-    },
-    setID(state, id) {
-      state.id = id;
-    },
-    setPassword(state, password) {
-      state.password = password;
-    },
-    setSearch(state, params) {
+    verifySearch({ state, commit, dispatch }, params) {
       if (state.search !== params.search) {
-        state.gifs = [];
-        state.loadCounter = 0;
+        commit("SET_GIFS", []);
+        commit("SET_LOADCOUNTER", 0);
       }
-      state.search = params.search;
-      this.commit("enter", { search: params.search, route: params.route });
+      commit("SET_SEARCH", params.search);
+      dispatch("enter", { search: params.search, route: params.route });
     }
   },
-  actions: {},
   modules: {}
 });

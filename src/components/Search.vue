@@ -20,6 +20,7 @@
   </div>
 </template>
 <script>
+import { mapActions } from "vuex";
 export default {
   name: "Search",
   data() {
@@ -28,9 +29,12 @@ export default {
     };
   },
   methods: {
+    ...mapActions({
+      verifySearch: "verifySearch"
+    }),
     enter(search) {
       // Executa mutation que atribui a informacao digitada na pesquisa ao state.search
-      this.$store.commit("setSearch", { search: search, route: this.$route });
+      this.verifySearch({ search: search, route: this.$route });
     }
   }
 };

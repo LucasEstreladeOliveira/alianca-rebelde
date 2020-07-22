@@ -9,7 +9,7 @@
       />
     </div>
     <h3 class="id">
-      {{ id }}
+      {{ login.email }}
     </h3>
     <div :class="`menu-buttom-group-${$mq}`">
       <router-link
@@ -49,8 +49,7 @@ export default {
   name: "Menu",
   computed: {
     ...mapState({
-      id: state => state.id,
-      password: state => state.password
+      login: state => state.login
     })
   },
   data() {
@@ -59,7 +58,7 @@ export default {
     };
   },
   created() {
-    if (this.id === "") {
+    if (this.login === {}) {
       this.$router.push("/login");
     }
   },
