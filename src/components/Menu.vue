@@ -11,12 +11,13 @@
     <h3 class="id">
       {{ id }}
     </h3>
-    <div
-      :class="`menu-buttom-group-${$mq}`"
-      v-for="route in routes"
-      :key="route.name"
-    >
-      <router-link :to="route.path" :class="`menu-buttom-${$mq} `">
+    <div :class="`menu-buttom-group-${$mq}`">
+      <router-link
+        :to="route.path"
+        v-for="route in routes"
+        :key="route.name"
+        :class="`menu-buttom-${$mq} `"
+      >
         <sui-icon
           :name="route.icon"
           class="ui large"
