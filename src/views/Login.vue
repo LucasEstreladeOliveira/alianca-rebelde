@@ -1,5 +1,5 @@
 <template>
-  <sui-modal v-model="open" size="mini">
+  <sui-modal v-model="open" size="mini" :closable="false">
     <!-- Titulo do Gif selecionado -->
     <div class="modal-login">
       <sui-modal-header class="modal-header">

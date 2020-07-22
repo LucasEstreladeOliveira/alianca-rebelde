@@ -1,22 +1,25 @@
 <template>
   <sui-card class="ui fluid display-card" :class="`card-overflow-${$mq}`">
-    <h2
-      style="color:#fbbd06
-        padding-bottom: 100px"
-    >
-      Busque algo
-    </h2>
-    <sui-image :src="background" centered />
+    <Gifs :gifs="gifs" :config="config" />
   </sui-card>
 </template>
 
 <script>
-import bb8 from "../assets/bb8.webp";
+import Gifs from "./Gifs";
+
 export default {
-  data() {
-    return {
-      background: bb8
-    };
+  components: {
+    Gifs
+  },
+  props: {
+    gifs: {
+      type: Array,
+      default: () => []
+    },
+    config: {
+      type: Object,
+      default: () => {}
+    }
   }
 };
 </script>

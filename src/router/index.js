@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 
 // Importando views e componetes
 import Dashboard from "../components/Dashboard.vue";
+import Favoritos from "../components/Favoritos.vue";
 import Login from "../views/Login.vue";
 import About from "../views/About.vue";
 
@@ -12,7 +13,14 @@ const routes = [
   {
     path: "/",
     name: "Dashboard",
-    component: Dashboard
+    component: Dashboard,
+    icon: "columns"
+  },
+  {
+    path: "/favoritos",
+    name: "Favoritos",
+    component: Favoritos,
+    icon: "star"
   },
   {
     path: "/login",
@@ -21,8 +29,9 @@ const routes = [
   },
   {
     path: "/about",
-    name: "About",
-    component: About
+    name: "Sobre",
+    component: About,
+    icon: "info"
   }
 ];
 

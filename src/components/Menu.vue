@@ -11,25 +11,14 @@
     <h3 class="id">
       {{ id }}
     </h3>
-    <div :class="`menu-buttom-group-${$mq}`">
-      <router-link to="/" :class="`menu-buttom-${$mq}`">
+    <div
+      :class="`menu-buttom-group-${$mq}`"
+      v-for="route in routes"
+      :key="route.name"
+    >
+      <router-link :to="route.path" :class="`menu-buttom-${$mq} `">
         <sui-icon
-          name="columns"
-          class="ui large icon-buttom"
-          link
-          bordered
-          inverted
-          circular
-          color="yellow"
-          floated="left"
-        ></sui-icon>
-        <sui-label color="yellow" size="large" v-if="$mq === 'desktop'" tag
-          >Dashboard</sui-label
-        >
-      </router-link>
-      <router-link to="/about" :class="`menu-buttom-${$mq}`">
-        <sui-icon
-          name="info"
+          :name="route.icon"
           class="ui large"
           link
           bordered
@@ -37,14 +26,17 @@
           circular
           color="yellow"
           floated="left"
+          :style="{ color: activeColor(route) }"
         ></sui-icon>
-        <sui-label
+        <a
+          is="sui-label"
           color="yellow"
           size="large"
           v-if="$mq === 'desktop'"
           tag
           style="color:black"
-          >About</sui-label
+          :style="{ color: activeColor(route) }"
+          >{{ route.name }}</a
         >
       </router-link>
     </div>
@@ -59,6 +51,38 @@ export default {
       id: state => state.id,
       password: state => state.password
     })
+  },
+  data() {
+    return {
+      routes: []
+    };
+  },
+  created() {
+    if (this.id === "") {
+      this.$router.push("/login");
+    }
+  },
+  mounted() {
+    this.routes = this.verifyIfLogin();
+  },
+  methods: {
+    activeColor(route) {
+      let color = "";
+      if (this.$route.name === route.name) {
+        color = "white !important";
+      } else {
+        color = "";
+      }
+
+      return color;
+    },
+    verifyIfLogin() {
+      let routes = this.$router.options.routes.map(route => {
+        return route.name !== "Login" ? route : {};
+      });
+
+      return routes;
+    }
   }
 };
 </script>
@@ -107,5 +131,9 @@ i.inverted.circular.yellow.icon {
 
 .id {
   color: #fbbd06;
+}
+
+.active {
+  color: white !important;
 }
 </style>
