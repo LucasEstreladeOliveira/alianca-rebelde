@@ -1,10 +1,14 @@
-version: '3.7'
+version: "3.7"
 
-services:
+services: 
   app:
-    build: .
-    volumes: 
-      - .:/app
-    working_dir: /app
-    ports: 
+    container_name: alianca_rebelde_container
+    image: alianca_rebelde_container
+    build: 
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - .:/var/www/alianca_rebelde
+      - /var/www/alianca_rebelde/node_modules
+    ports:
       - 8080:8080

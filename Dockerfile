@@ -1,14 +1,17 @@
 FROM node:lts-alpine
 
-RUN yarn globall add @vue/cli
-# faz da pasta 'app' o diretório atual de trabalho
-WORKDIR /app
+ENV CONTAINER_PATH /var/www/alianca-rebelde
 
-# copia os arquivos 'package.json' e 'package-lock.json' (se disponível)
+WORKDIR $CONTAINER_PATH
+
+RUN npm install -g @vue/cli
+
 COPY package*.json ./
 
-# instala dependências do projeto
 RUN npm install
 
+COPY . . 
+
 EXPOSE 8080
-CMD [ "npm", "run", "serve" ]
+
+CMD ["npm", "run", "serve"]
