@@ -15,7 +15,7 @@
         </sui-form-field>
         <sui-form-field>
           <h4>Password</h4>
-          <input placeholder="Password" v-model="password" />
+          <input placeholder="Password" type="password" v-model="password" />
         </sui-form-field>
       </sui-form>
       <!-- Botao que fecha o modal -->
