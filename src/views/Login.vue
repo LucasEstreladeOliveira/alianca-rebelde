@@ -10,7 +10,7 @@
         style="text-align: center; margin:10px; margin-top:20px; margin-bottom:20px"
       >
         <sui-form-field>
-          <h4>EMAIL</h4>
+          <h4>Email</h4>
           <input placeholder="Email" v-model="email" />
         </sui-form-field>
         <sui-form-field>
@@ -38,8 +38,8 @@ export default {
   data() {
     return {
       open: true,
-      email: "",
-      password: ""
+      email: null,
+      password: null
     };
   },
   methods: {
@@ -47,12 +47,14 @@ export default {
       setLogin: "SET_LOGIN"
     }),
     toggle() {
-      let login = {
-        email: this.email,
-        password: this.password
-      };
-      this.setLogin(login);
-      this.$router.push("/");
+      if (this.email && this.password) {
+        let login = {
+          email: this.email,
+          password: this.password
+        };
+        this.setLogin(login);
+        this.$router.push("/");
+      }
     }
   }
 };

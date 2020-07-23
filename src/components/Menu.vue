@@ -1,12 +1,7 @@
 <template>
   <sui-card class="card-background">
     <div style="padding-top: 20px">
-      <sui-image
-        src="https://avatars2.githubusercontent.com/u/48110280?s=400&v=4"
-        size="tiny"
-        circular
-        centered
-      />
+      <sui-image :src="babyYoda" size="tiny" circular centered />
     </div>
     <h3 class="id">
       {{ login.email }}
@@ -45,6 +40,7 @@
 </template>
 <script>
 import { mapState } from "vuex";
+import babyYoda from "../assets/baby_yoda.jpg";
 export default {
   name: "Menu",
   computed: {
@@ -54,11 +50,12 @@ export default {
   },
   data() {
     return {
-      routes: []
+      routes: [],
+      babyYoda: babyYoda
     };
   },
   created() {
-    if (this.login === {}) {
+    if (this.login === null) {
       this.$router.push("/login");
     }
   },

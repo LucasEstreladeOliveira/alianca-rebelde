@@ -12,7 +12,7 @@ export default new Vuex.Store({
     search: "",
     open: false,
     currentGif: {},
-    login: {}
+    login: null
   },
   mutations: {
     setGifs(state, gifs) {
@@ -20,13 +20,6 @@ export default new Vuex.Store({
     },
     SET_GIFS(state, gifs) {
       state.gifs = gifs;
-    },
-    async postFavorito(state, favorito) {
-      try {
-        await PostService.insertGif(favorito);
-      } catch (err) {
-        console.log(err.message);
-      }
     },
     SET_FAVORITOS(state, favoritos) {
       state.favoritos = favoritos.map(fav => {
@@ -89,7 +82,7 @@ export default new Vuex.Store({
         console.log(err.message);
       }
     },
-    async postFavorito(favorito) {
+    async postFavorito(_, favorito) {
       try {
         await PostService.insertGif(favorito);
       } catch (err) {
