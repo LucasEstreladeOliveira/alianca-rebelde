@@ -4,7 +4,7 @@
       style="color:#fbbd06
         padding-bottom: 100px"
     >
-      Busque algo
+      Procure novos Gifs e que a força esteja com você
     </h2>
     <sui-image :src="background" centered />
   </sui-card>

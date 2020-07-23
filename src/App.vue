@@ -19,6 +19,9 @@ export default {
     };
   },
   created() {
+    if (!this.login) {
+      this.$router.push("/login");
+    }
     window.addEventListener("resize", () => {
       this.verifyOverflow();
     });

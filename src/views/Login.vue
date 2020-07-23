@@ -10,8 +10,8 @@
         style="text-align: center; margin:10px; margin-top:20px; margin-bottom:20px"
       >
         <sui-form-field>
-          <h4>ID</h4>
-          <input placeholder="ID" v-model="id" />
+          <h4>Email</h4>
+          <input placeholder="Email" v-model="email" />
         </sui-form-field>
         <sui-form-field>
           <h4>Password</h4>
@@ -33,22 +33,28 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
 export default {
   data() {
     return {
       open: true,
-      id: "",
-      password: ""
+      email: null,
+      password: null
     };
   },
   methods: {
+    ...mapMutations({
+      setLogin: "SET_LOGIN"
+    }),
     toggle() {
-      let login = {
-        id: this.id,
-        password: this.password
-      };
-      this.$store.commit("setLogin", login);
-      this.$router.push("/");
+      if (this.email && this.password) {
+        let login = {
+          email: this.email,
+          password: this.password
+        };
+        this.setLogin(login);
+        this.$router.push("/");
+      }
     }
   }
 };

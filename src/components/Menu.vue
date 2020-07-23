@@ -1,15 +1,10 @@
 <template>
   <sui-card class="card-background">
     <div style="padding-top: 20px">
-      <sui-image
-        src="https://avatars2.githubusercontent.com/u/48110280?s=400&v=4"
-        size="tiny"
-        circular
-        centered
-      />
+      <sui-image :src="babyYoda" size="tiny" circular centered />
     </div>
     <h3 class="id">
-      {{ id }}
+      {{ login.email }}
     </h3>
     <div :class="`menu-buttom-group-${$mq}`">
       <router-link
@@ -45,21 +40,22 @@
 </template>
 <script>
 import { mapState } from "vuex";
+import babyYoda from "../assets/baby_yoda.jpg";
 export default {
   name: "Menu",
   computed: {
     ...mapState({
-      id: state => state.id,
-      password: state => state.password
+      login: state => state.login
     })
   },
   data() {
     return {
-      routes: []
+      routes: [],
+      babyYoda: babyYoda
     };
   },
   created() {
-    if (this.id === "") {
+    if (this.login === null) {
       this.$router.push("/login");
     }
   },
