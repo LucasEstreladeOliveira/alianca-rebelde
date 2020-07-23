@@ -15,7 +15,7 @@
 import Search from "./Search";
 import Busque from "./Busque";
 import GifView from "./GifView";
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 export default {
   name: "Dashboard",
@@ -27,7 +27,8 @@ export default {
   computed: {
     ...mapState({
       gifs: state => state.gifs,
-      currentGif: state => state.currentGif
+      currentGif: state => state.currentGif,
+      login: state => state.login
     })
   },
   data() {
@@ -43,11 +44,14 @@ export default {
     };
   },
   methods: {
+    ...mapActions({
+      postFavorito: "postFavorito"
+    }),
     verificaGifLength() {
       return this.gifs.length !== 0 ? true : false;
     },
     favorita() {
-      this.$store.commit("postFavorito", this.currentGif);
+      this.postFavorito(this.currentGif);
     }
   }
 };

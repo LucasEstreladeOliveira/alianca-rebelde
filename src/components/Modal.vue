@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions, mapMutations } from "vuex";
 
 export default {
   name: "Modal",
@@ -72,20 +72,23 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      updateFavorito: "updateFavoritos"
+    }),
+    ...mapMutations({
+      setOpen: "SET_OPEN"
+    }),
     toggle() {
       // Executa a mutation que muda o estado do state.open
-      this.$store.commit("setOpen");
+      this.setOpen();
     },
     toggleAction() {
       this.active = true;
       this.config.action();
       setTimeout(() => {
         this.active = false;
-        this.$store.commit("setOpen");
+        this.setOpen();
       }, 1000);
-    },
-    updateFavorito(gif) {
-      this.$store.commit("updateFavorito", gif);
     }
   }
 };

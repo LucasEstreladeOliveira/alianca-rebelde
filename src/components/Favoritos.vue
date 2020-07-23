@@ -22,7 +22,7 @@
 <script>
 import GifView from "./GifView";
 import Busque from "./Busque";
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 export default {
   name: "Dashboard",
@@ -45,18 +45,22 @@ export default {
     this.configModal = {
       name: "close icon",
       color: "red",
-      action: this.removeFavorito
+      action: this.remove
     };
   },
   mounted() {
-    this.$store.commit("getFavoritos");
+    this.getFavoritos();
   },
   methods: {
+    ...mapActions({
+      getFavoritos: "getFavoritos",
+      removeFavorito: "removeFavorito"
+    }),
     verificaGifLength() {
       return this.favoritos.length !== 0 ? true : false;
     },
-    removeFavorito() {
-      this.$store.commit("removeFavorito", this.currentGif.id);
+    remove() {
+      this.removeFavorito(this.currentGif.id);
     }
   }
 };

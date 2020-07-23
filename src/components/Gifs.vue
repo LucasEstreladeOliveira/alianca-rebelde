@@ -21,7 +21,7 @@
   </sui-grid>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions, mapMutations } from "vuex";
 import Modal from "./Modal";
 
 export default {
@@ -62,11 +62,18 @@ export default {
     this.handleObserver();
   },
   methods: {
+    ...mapActions({
+      enter: "enter"
+    }),
+    ...mapMutations({
+      setCurrentGif: "SET_CURRENT_GIF",
+      setOpen: "SET_OPEN"
+    }),
     toggle(gif) {
       // Executa mutation que atribui o gif clickado ao state.currentGif
-      this.$store.commit("setCurrentGif", gif);
+      this.setCurrentGif(gif);
       // Executa mutation que altera o estado do state.open
-      this.$store.commit("setOpen");
+      this.setOpen();
     },
     handleResize() {
       // Funcao responsavel por decidir quantas imagens aparecem por coluna dependendo do tamanho da tela
@@ -78,7 +85,7 @@ export default {
     },
     handleLoad(search) {
       // Executa mutation que realiza a pesquisa na API do Giphy
-      this.$store.commit("enter", { search: search, route: this.$route });
+      this.enter({ search: search, route: this.$route });
     },
     handleObserver() {
       // Adiciona o observer que realiza uma nova pesquisa sempre que o elemento this.$refs.observer aparece na tela
