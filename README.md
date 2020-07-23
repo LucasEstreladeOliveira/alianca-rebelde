@@ -59,7 +59,7 @@ Quando achar algum gif que tenha gostado, é só clicar nele e aparecerá uma ja
 
 ### Favoritos
 
-Agora que você ja tem alguns dos seus gifs favoritos salvos, você pode vê-los clicando no botão **Favoritos** localizado no menu do lado esquerdo.
+Agora que você já tem alguns dos seus gifs favoritos salvos, você pode vê-los clicando no botão **Favoritos** localizado no menu do lado esquerdo.
 
 <img src="src/assets/read-me/favoritos.jpeg"
      alt="Favoritos"
@@ -70,7 +70,7 @@ Agora que você ja tem alguns dos seus gifs favoritos salvos, você pode vê-los
 </br>
 
 
-Nos favoritos você podera clicar nos seus gifs favoritos para abrir uma janela onde você pode alterar o nome dele (clicando no nome dele e alterando para algum de sua preferência), ou excluí-lo dos seus favoritos clicando no botão vermelho com o **X** no canto superior direito. Caso não queira fazer nada é só clicar no botão **OK** .
+Nos favoritos você poderá vizualizar seus gifs salvos clicando em um deles para abrir uma janela onde você pode alterar o nome (clicando no nome dele e alterando para algum de sua preferência), ou excluí-lo dos seus favoritos clicando no botão vermelho com o **X** no canto superior direito. Caso não queira fazer nada é só clicar no botão **OK** .
 
 <img src="src/assets/read-me/favoritos-gif.jpeg"
      alt="Favoritos Gif"
