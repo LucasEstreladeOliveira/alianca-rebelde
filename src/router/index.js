@@ -5,7 +5,6 @@ import VueRouter from "vue-router";
 import Dashboard from "../components/Dashboard.vue";
 import Favoritos from "../components/Favoritos.vue";
 import Login from "../views/Login.vue";
-import About from "../views/About.vue";
 
 Vue.use(VueRouter);
 
@@ -26,12 +25,6 @@ const routes = [
     path: "/login",
     name: "Login",
     component: Login
-  },
-  {
-    path: "/about",
-    name: "Sobre",
-    component: About,
-    icon: "info"
   }
 ];
 
